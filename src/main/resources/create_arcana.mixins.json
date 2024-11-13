@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_17",
+  "package": "com.ghosty.create_arcana.mixin",
+  "client": [
+
+  ],
+  "mixins": [
+
+  ],
+  "injector": {
+    "defaultRequire": 1
+  },
+  "refmap": "com.ghosty.create_arcana.refmap.json"
+}
