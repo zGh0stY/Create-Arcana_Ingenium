@@ -57,6 +57,10 @@ public class ArcanaCreativeTabs {
                     .displayItems(new RegistrateDisplayItemsGenerator(true, ArcanaCreativeTabs.BASE_CREATIVE_TAB))
                     .build());
 
+    public static void register(IEventBus modEventBus) {
+        REGISTER.register(modEventBus);
+    }
+
     private static class RegistrateDisplayItemsGenerator implements DisplayItemsGenerator {
         private static final Predicate<Item> IS_ITEM_3D_PREDICATE;
 
@@ -95,7 +99,7 @@ public class ArcanaCreativeTabs {
             Set<Item> exclusions = new ReferenceOpenHashSet<>();
 
             List<ItemProviderEntry<?>> simpleExclusions = List.of(
-                    ArcanaItems.SPEED_UPPER
+
             );
 
             List<ItemEntry<TagDependentIngredientItem>> tagDependentExclusions = List.of(
@@ -200,7 +204,7 @@ public class ArcanaCreativeTabs {
 
         private List<Item> collectBlocks(Predicate<Item> exclusionPredicate) {
             List<Item> items = new ReferenceArrayList<>();
-            for (RegistryEntry<Block> entry : Create.REGISTRATE.getAll(Registries.BLOCK)) {
+            for (RegistryEntry<Block> entry : CreateArcana.REGISTRATE.getAll(Registries.BLOCK)) {
                 if (!CreateRegistrate.isInCreativeTab(entry, tabFilter))
                     continue;
                 Item item = entry.get()
@@ -216,7 +220,7 @@ public class ArcanaCreativeTabs {
 
         private List<Item> collectItems(Predicate<Item> exclusionPredicate) {
             List<Item> items = new ReferenceArrayList<>();
-            for (RegistryEntry<Item> entry : Create.REGISTRATE.getAll(Registries.ITEM)) {
+            for (RegistryEntry<Item> entry : CreateArcana.REGISTRATE.getAll(Registries.ITEM)) {
                 if (!CreateRegistrate.isInCreativeTab(entry, tabFilter))
                     continue;
                 Item item = entry.get();
@@ -269,4 +273,5 @@ public class ArcanaCreativeTabs {
                 AFTER;
             }
         }
+    }
 }
