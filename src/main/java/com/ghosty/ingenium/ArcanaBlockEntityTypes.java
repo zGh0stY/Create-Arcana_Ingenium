@@ -1,8 +1,6 @@
-package com.ghosty.create_arcana;
+package com.ghosty.ingenium;
 
-import com.ghosty.create_arcana.kinetics.speedUpper.SpeedUpperBlockEntity;
-import com.simibubi.create.content.kinetics.base.ShaftRenderer;
-import com.simibubi.create.content.kinetics.gearbox.GearboxRenderer;
+import com.ghosty.ingenium.kinetics.speedUpper.SpeedUpperBlockEntity;
 import com.simibubi.create.content.kinetics.transmission.SplitShaftInstance;
 import com.simibubi.create.content.kinetics.transmission.SplitShaftRenderer;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;

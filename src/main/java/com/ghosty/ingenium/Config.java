@@ -1,4 +1,4 @@
-package com.ghosty.create_arcana;
+package com.ghosty.ingenium;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;

@@ -18,8 +18,8 @@ base {
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 //mixin {
-//    add sourceSets.main, "create_arcana.refmap.json"
-//    config "create_arcana.mixins.json"
+//    add sourceSets.main, "ingenium.refmap.json"
+//    config "ingenium.mixins.json"
 //}
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
@@ -78,7 +78,7 @@ minecraft {
 
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
-            //args '-mixin.config=create_arcana.mixins.json'
+            //args '-mixin.config=ingenium.mixins.json'
 
             // Recommended logging level for the console
             // You can set various levels here.
@@ -177,7 +177,7 @@ tasks.named('jar', Jar).configure {
                 'Implementation-Version'  : project.jar.archiveVersion,
                 'Implementation-Vendor'   : mod_authors,
                 'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                'MixinConfigs': 'create_arcana.mixins.json'
+                'MixinConfigs': 'ingenium.mixins.json'
         ])
     }
 

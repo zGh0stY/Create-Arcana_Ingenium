@@ -1,22 +1,15 @@
-package com.ghosty.create_arcana;
+package com.ghosty.ingenium;
 
 import static com.simibubi.create.foundation.data.ModelGen.customItemModel;
 import static com.simibubi.create.foundation.data.TagGen.axeOrPickaxe;
-import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
 
-import com.ghosty.create_arcana.kinetics.speedUpper.SpeedUpperBlock;
-import com.ghosty.create_arcana.kinetics.speedUpper.SpeedUpperBlockEntity;
-import com.simibubi.create.AllSpriteShifts;
-import com.simibubi.create.content.decoration.encasing.EncasedCTBehaviour;
+import com.ghosty.ingenium.kinetics.speedUpper.SpeedUpperBlock;
 import com.simibubi.create.content.kinetics.BlockStressDefaults;
-import com.simibubi.create.content.kinetics.simpleRelays.BracketedKineticBlockModel;
 import com.simibubi.create.foundation.data.AssetLookup;
 import com.simibubi.create.foundation.data.BlockStateGen;
-import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.tterrag.registrate.util.entry.BlockEntry;
 
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.material.MapColor;
 
 public class ArcanaBlocks {

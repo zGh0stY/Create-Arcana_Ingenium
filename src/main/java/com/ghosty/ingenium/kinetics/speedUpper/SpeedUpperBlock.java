@@ -1,6 +1,6 @@
-package com.ghosty.create_arcana.kinetics.speedUpper;
+package com.ghosty.ingenium.kinetics.speedUpper;
 
-import com.ghosty.create_arcana.ArcanaBlockEntityTypes;
+import com.ghosty.ingenium.ArcanaBlockEntityTypes;
 import com.simibubi.create.content.kinetics.RotationPropagator;
 import com.simibubi.create.content.kinetics.base.AbstractEncasedShaftBlock;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;

@@ -1,4 +1,4 @@
-package com.ghosty.create_arcana;
+package com.ghosty.ingenium;
 
 public class ArcanaItems {
 

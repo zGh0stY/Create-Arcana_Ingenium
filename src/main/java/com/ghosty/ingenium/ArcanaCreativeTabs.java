@@ -1,4 +1,4 @@
-package com.ghosty.create_arcana;
+package com.ghosty.ingenium;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.foundation.data.CreateRegistrate;
