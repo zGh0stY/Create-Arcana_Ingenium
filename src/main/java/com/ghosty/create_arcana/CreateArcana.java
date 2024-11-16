@@ -51,8 +51,12 @@ public class CreateArcana
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+
+        REGISTRATE.registerEventListeners(modEventBus);
+
         ArcanaCreativeTabs.register(modEventBus);
         ArcanaBlocks.register();
+        ArcanaBlockEntityTypes.register();
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
