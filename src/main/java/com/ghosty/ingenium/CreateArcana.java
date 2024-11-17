@@ -5,6 +5,7 @@ import com.ghosty.ingenium.registries.ArcanaBlocks;
 import com.ghosty.ingenium.registries.ArcanaCreativeTabs;
 import com.mojang.logging.LogUtils;
 import com.simibubi.create.foundation.data.CreateRegistrate;
+import com.tterrag.registrate.Registrate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;

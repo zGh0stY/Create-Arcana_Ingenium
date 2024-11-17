@@ -1,4 +1,4 @@
-package com.ghosty.ingenium.kinetics.speedUpper;
+package com.ghosty.ingenium.blocks.kinetics.speedUpper;
 
 import com.ghosty.ingenium.registries.ArcanaBlockEntityTypes;
 import com.simibubi.create.content.kinetics.RotationPropagator;
@@ -8,8 +8,12 @@ import com.simibubi.create.content.kinetics.transmission.SplitShaftBlockEntity;
 import com.simibubi.create.foundation.block.IBE;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -19,7 +23,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.ticks.TickPriority;
+import org.jetbrains.annotations.NotNull;
 
 public class SpeedUpperBlock extends AbstractEncasedShaftBlock implements IBE<SplitShaftBlockEntity> {
 
