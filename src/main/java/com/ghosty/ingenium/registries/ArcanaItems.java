@@ -1,4 +1,6 @@
-package com.ghosty.ingenium;
+package com.ghosty.ingenium.registries;
+
+import com.ghosty.ingenium.CreateArcana;
 
 public class ArcanaItems {
 

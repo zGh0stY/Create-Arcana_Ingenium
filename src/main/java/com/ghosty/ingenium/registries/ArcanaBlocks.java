@@ -1,8 +1,9 @@
-package com.ghosty.ingenium;
+package com.ghosty.ingenium.registries;
 
 import static com.simibubi.create.foundation.data.ModelGen.customItemModel;
 import static com.simibubi.create.foundation.data.TagGen.axeOrPickaxe;
 
+import com.ghosty.ingenium.CreateArcana;
 import com.ghosty.ingenium.kinetics.speedUpper.SpeedUpperBlock;
 import com.simibubi.create.content.kinetics.BlockStressDefaults;
 import com.simibubi.create.foundation.data.AssetLookup;

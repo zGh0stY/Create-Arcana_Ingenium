@@ -1,5 +1,6 @@
-package com.ghosty.ingenium;
+package com.ghosty.ingenium.registries;
 
+import com.ghosty.ingenium.CreateArcana;
 import com.ghosty.ingenium.kinetics.speedUpper.SpeedUpperBlockEntity;
 import com.simibubi.create.content.kinetics.transmission.SplitShaftInstance;
 import com.simibubi.create.content.kinetics.transmission.SplitShaftRenderer;

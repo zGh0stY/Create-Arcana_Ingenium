@@ -1,5 +1,8 @@
 package com.ghosty.ingenium;
 
+import com.ghosty.ingenium.registries.ArcanaBlockEntityTypes;
+import com.ghosty.ingenium.registries.ArcanaBlocks;
+import com.ghosty.ingenium.registries.ArcanaCreativeTabs;
 import com.mojang.logging.LogUtils;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import net.minecraft.client.Minecraft;

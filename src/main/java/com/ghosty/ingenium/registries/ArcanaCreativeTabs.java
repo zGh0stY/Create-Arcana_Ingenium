@@ -1,5 +1,6 @@
-package com.ghosty.ingenium;
+package com.ghosty.ingenium.registries;
 
+import com.ghosty.ingenium.CreateArcana;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.foundation.item.TagDependentIngredientItem;
