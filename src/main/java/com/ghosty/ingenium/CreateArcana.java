@@ -1,15 +1,15 @@
 package com.ghosty.ingenium;
 
+import com.ghosty.ingenium.blocks.multiblock.MultiBlockStructures;
+import com.ghosty.ingenium.events.MultiBlockBreakHandler;
 import com.ghosty.ingenium.registries.ArcanaBlockEntityTypes;
 import com.ghosty.ingenium.registries.ArcanaBlocks;
 import com.ghosty.ingenium.registries.ArcanaCreativeTabs;
 import com.mojang.logging.LogUtils;
 import com.simibubi.create.foundation.data.CreateRegistrate;
-import com.tterrag.registrate.Registrate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -21,7 +21,6 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -45,9 +44,9 @@ public class CreateArcana
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(MultiBlockBreakHandler.class);
 
         REGISTRATE.registerEventListeners(modEventBus);
-
         ArcanaCreativeTabs.register(modEventBus);
         ArcanaBlocks.register();
         ArcanaBlockEntityTypes.register();
@@ -61,15 +60,7 @@ public class CreateArcana
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
-        // Some common setup code
-        LOGGER.info("HELLO FROM COMMON SETUP");
-
-        if (Config.logDirtBlock)
-            LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
-
-        LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
-
-        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
+        MultiBlockStructures.initialize();
     }
 
     // Add the example block item to the building blocks tab
