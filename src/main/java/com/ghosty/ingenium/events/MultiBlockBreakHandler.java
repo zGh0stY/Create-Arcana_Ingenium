@@ -14,7 +14,8 @@ public class MultiBlockBreakHandler {
     public static void onBlockBreak(BlockEvent.BreakEvent event) {
         BlockPos pos = event.getPos();
         Level level = (Level) event.getLevel();
-        BlockEntity blockEntity = MultiBlockManager.findControllerForBlock(level, pos);
+        MultiBlockManager manager = MultiBlockManager.get(level);
+        BlockEntity blockEntity = manager.findControllerForBlock(level, pos);
 
         if (blockEntity instanceof MultiBlockControllerEntity controllerEntity) {
             if (controllerEntity.isPartOfStructure(pos)) {

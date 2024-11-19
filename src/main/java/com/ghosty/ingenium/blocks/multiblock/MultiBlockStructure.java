@@ -31,7 +31,7 @@ public class MultiBlockStructure {
 
         for (dir = 0; dir < 4; dir++) {
             iterationValid = true;
-            printStructure(currentStructure);
+            //printStructure(currentStructure);
             for (int y = 0; y < currentStructure.length; y++) {
                 for (int z = 0; z < currentStructure[y].length; z++) {
                     for (int x = 0; x < currentStructure[y][z].length; x++) {
