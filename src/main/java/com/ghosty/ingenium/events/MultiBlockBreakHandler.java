@@ -1,7 +1,7 @@
 package com.ghosty.ingenium.events;
 
 import com.ghosty.ingenium.blocks.multiblock.MultiBlockControllerEntity;
-import com.ghosty.ingenium.blocks.multiblock.MultiBlockManager;
+import com.ghosty.ingenium.data.multiblock.MultiBlockManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;

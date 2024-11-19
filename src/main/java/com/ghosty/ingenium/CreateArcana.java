@@ -1,6 +1,7 @@
 package com.ghosty.ingenium;
 
-import com.ghosty.ingenium.blocks.multiblock.MultiBlockStructures;
+import com.ghosty.ingenium.data.multiblock.MultiBlockStructureLoader;
+import com.ghosty.ingenium.data.multiblock.MultiBlockStructures;
 import com.ghosty.ingenium.events.MultiBlockBreakHandler;
 import com.ghosty.ingenium.registries.ArcanaBlockEntityTypes;
 import com.ghosty.ingenium.registries.ArcanaBlocks;
@@ -9,6 +10,7 @@ import com.mojang.logging.LogUtils;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -60,6 +62,7 @@ public class CreateArcana
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
+        MultiBlockStructureLoader.loadStructures(Minecraft.getInstance().getResourceManager());
         MultiBlockStructures.initialize();
     }
 

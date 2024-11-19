@@ -1,5 +1,6 @@
 package com.ghosty.ingenium.blocks.multiblock;
 
+import com.ghosty.ingenium.data.multiblock.MultiBlockStructures;
 import com.ghosty.ingenium.registries.ArcanaBlockEntityTypes;
 import com.simibubi.create.foundation.block.IBE;
 import net.minecraft.core.BlockPos;

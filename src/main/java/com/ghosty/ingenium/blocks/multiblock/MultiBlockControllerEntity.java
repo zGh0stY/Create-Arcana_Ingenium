@@ -1,11 +1,14 @@
 package com.ghosty.ingenium.blocks.multiblock;
 
-import com.ghosty.ingenium.registries.ArcanaBlockEntityTypes;
+import com.ghosty.ingenium.CreateArcana;
+import com.ghosty.ingenium.data.multiblock.MultiBlockManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -62,9 +65,10 @@ public class MultiBlockControllerEntity extends BlockEntity {
     @Override
     public void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
+        CompoundTag modTag = new CompoundTag();
 
         // Save the `isFormed` flag
-        tag.putBoolean("IsFormed", isFormed);
+        modTag.putBoolean("IsFormed", isFormed);
 
         // Save the structureBlocks list
         ListTag blockList = new ListTag();
@@ -75,22 +79,23 @@ public class MultiBlockControllerEntity extends BlockEntity {
             blockPosTag.putInt("Z", pos.getZ());
             blockList.add(blockPosTag);
         }
-        tag.put("StructureBlocks", blockList);
+
+        modTag.put("StructureBlocks", blockList);
+        tag.put(CreateArcana.MODID, modTag);
     }
 
     // Load from NBT
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
-        System.out.println("Loading ControllerEntity Data!");
-        System.out.println(tag);
+        CompoundTag modTag = tag.getCompound(CreateArcana.MODID);
 
         // Load the `isFormed` flag
-        isFormed = tag.getBoolean("IsFormed");
+        isFormed = modTag.getBoolean("IsFormed");
 
         // Load the structureBlocks list
         structureBlocks = new ArrayList<>();
-        ListTag blockList = tag.getList("StructureBlocks", Tag.TAG_COMPOUND); // Each entry is a CompoundTag
+        ListTag blockList = modTag.getList("StructureBlocks", Tag.TAG_COMPOUND); // Each entry is a CompoundTag
         for (int i = 0; i < blockList.size(); i++) {
             CompoundTag blockPosTag = blockList.getCompound(i);
             int x = blockPosTag.getInt("X");

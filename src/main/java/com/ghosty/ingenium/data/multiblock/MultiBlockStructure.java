@@ -1,4 +1,4 @@
-package com.ghosty.ingenium.blocks.multiblock;
+package com.ghosty.ingenium.data.multiblock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
