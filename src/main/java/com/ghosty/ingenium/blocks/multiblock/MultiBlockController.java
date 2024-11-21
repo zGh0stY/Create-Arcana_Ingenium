@@ -1,5 +1,7 @@
 package com.ghosty.ingenium.blocks.multiblock;
 
+import com.ghosty.ingenium.data.multiblock.MultiBlockStructure;
+import com.ghosty.ingenium.data.multiblock.MultiBlockStructureType;
 import com.ghosty.ingenium.data.multiblock.MultiBlockStructures;
 import com.ghosty.ingenium.registries.ArcanaBlockEntityTypes;
 import com.simibubi.create.foundation.block.IBE;
@@ -18,6 +20,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import java.util.List;
 
 public class MultiBlockController extends Block implements IBE<MultiBlockControllerEntity> {
+    MultiBlockStructures structure = MultiBlockStructures.TEST_STRUCTURE;
     public MultiBlockController(Properties pProperties) {
         super(pProperties);
     }
@@ -26,15 +29,16 @@ public class MultiBlockController extends Block implements IBE<MultiBlockControl
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!level.isClientSide) { // Ensure this is only done on the server side
             BlockEntity entity = level.getBlockEntity(pos);
+            MultiBlockStructure savedStructure = structure.get();
             if (entity instanceof MultiBlockControllerEntity controller) {
                 // Call the validation method
-                int valid = MultiBlockStructures.TEST_STRUCTURE.isValid(level, pos);
+                int valid = savedStructure.isValid(level, pos);
 
                 if (valid >= 0) {
                     player.sendSystemMessage(Component.literal("Multi-block structure is valid!"));
                     controller.setFormed(true);
 
-                    List<BlockPos> blocks = MultiBlockStructures.TEST_STRUCTURE.getStructureBlocks(level, pos, valid);
+                    List<BlockPos> blocks = savedStructure.getStructureBlocks(level, pos, valid);
                     for (BlockPos block : blocks) {
                         controller.addToStructure(block);
                     }
