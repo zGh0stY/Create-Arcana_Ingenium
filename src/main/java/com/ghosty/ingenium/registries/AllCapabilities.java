@@ -5,7 +5,7 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.energy.IEnergyStorage;
 
-public class ArcanaCapabilities {
+public class AllCapabilities {
     // Declare capabilities
     public static final Capability<IEnergyStorage> MANA = CapabilityManager.get(new CapabilityToken<>() {});
     public static final Capability<IEnergyStorage> PRANA = CapabilityManager.get(new CapabilityToken<>() {});

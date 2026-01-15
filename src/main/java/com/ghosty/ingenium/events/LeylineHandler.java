@@ -1,6 +1,6 @@
 package com.ghosty.ingenium.events;
 
-import com.ghosty.ingenium.CreateArcana;
+import com.ghosty.ingenium.ArcanaIngenium;
 import com.ghosty.ingenium.world.voronoi.VoronoiChecker;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.event.level.LevelEvent;
@@ -20,7 +20,7 @@ public class LeylineHandler {
         checker = new VoronoiChecker();
         checker.initialize(seed);
 
-        CreateArcana.logger().info("Voronoi checker initialized with world seed: {}", seed);
+        ArcanaIngenium.logger().info("Voronoi checker initialized with world seed: {}", seed);
     }
 
     public static VoronoiChecker getChecker() {

@@ -1,9 +1,8 @@
 package com.ghosty.ingenium.blocks.multiblock;
 
 import com.ghosty.ingenium.data.multiblock.MultiBlockStructure;
-import com.ghosty.ingenium.data.multiblock.MultiBlockStructureType;
 import com.ghosty.ingenium.data.multiblock.MultiBlockStructures;
-import com.ghosty.ingenium.registries.ArcanaBlockEntityTypes;
+import com.ghosty.ingenium.registries.AllBlockEntityTypes;
 import com.simibubi.create.foundation.block.IBE;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -68,6 +67,6 @@ public class MultiBlockController extends Block implements IBE<MultiBlockControl
 
     @Override
     public BlockEntityType<? extends MultiBlockControllerEntity> getBlockEntityType() {
-        return ArcanaBlockEntityTypes.MULTIBLOCK_CONTROLLER.get();
+        return AllBlockEntityTypes.MULTIBLOCK_CONTROLLER.get();
     }
 }

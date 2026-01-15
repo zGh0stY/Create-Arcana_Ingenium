@@ -1,14 +1,10 @@
 package com.ghosty.ingenium.blocks.energy.manaBattery;
 
-import com.ghosty.ingenium.registries.ArcanaBlockEntityTypes;
-import com.ghosty.ingenium.registries.ArcanaCapabilities;
-import com.simibubi.create.content.kinetics.RotationPropagator;
-import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import com.ghosty.ingenium.registries.AllBlockEntityTypes;
+import com.ghosty.ingenium.registries.AllCapabilities;
 import com.simibubi.create.foundation.block.IBE;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -18,10 +14,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import org.jetbrains.annotations.NotNull;
 
-public class ManaBatteryBlock extends Block implements IBE<ManaBatteryBlockEntity> {
-    public ManaBatteryBlock(Properties pProperties) {
+public class ArcanaBatteryBlock extends Block implements IBE<ArcanaBatteryBlockEntity> {
+    public ArcanaBatteryBlock(Properties pProperties) {
         super(pProperties);
     }
 
@@ -30,8 +25,8 @@ public class ManaBatteryBlock extends Block implements IBE<ManaBatteryBlockEntit
         if (!level.isClientSide) {
             BlockEntity blockEntity = getBlockEntity(level, pos);
 
-            if (blockEntity instanceof ManaBatteryBlockEntity energyBlockEntity) {
-                energyBlockEntity.getCapability(ArcanaCapabilities.MANA).ifPresent(manaStorage -> {
+            if (blockEntity instanceof ArcanaBatteryBlockEntity energyBlockEntity) {
+                energyBlockEntity.getCapability(AllCapabilities.MANA).ifPresent(manaStorage -> {
                     manaStorage.receiveEnergy(150, false);
 
                     int currentMana = manaStorage.getEnergyStored();
@@ -58,12 +53,12 @@ public class ManaBatteryBlock extends Block implements IBE<ManaBatteryBlockEntit
     */
 
     @Override
-    public Class<ManaBatteryBlockEntity> getBlockEntityClass() {
-        return ManaBatteryBlockEntity.class;
+    public Class<ArcanaBatteryBlockEntity> getBlockEntityClass() {
+        return ArcanaBatteryBlockEntity.class;
     }
 
     @Override
-    public BlockEntityType<? extends ManaBatteryBlockEntity> getBlockEntityType() {
-        return ArcanaBlockEntityTypes.MANA_BATTERY.get();
+    public BlockEntityType<? extends ArcanaBatteryBlockEntity> getBlockEntityType() {
+        return AllBlockEntityTypes.MANA_BATTERY.get();
     }
 }

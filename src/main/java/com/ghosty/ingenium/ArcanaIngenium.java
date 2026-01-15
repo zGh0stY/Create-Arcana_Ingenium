@@ -15,20 +15,17 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod(CreateArcana.MODID)
-public class CreateArcana
+@Mod(ArcanaIngenium.MODID)
+public class ArcanaIngenium
 {
     public static final String MODID = "ingenium";
     private static final CreateRegistrate REGISTRATE = CreateRegistrate.create(MODID)
@@ -39,7 +36,7 @@ public class CreateArcana
             );
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public CreateArcana(FMLJavaModLoadingContext context)
+    public ArcanaIngenium(FMLJavaModLoadingContext context)
     {
         IEventBus modEventBus = context.getModEventBus();
 
@@ -50,10 +47,10 @@ public class CreateArcana
         MinecraftForge.EVENT_BUS.register(MultiBlockBreakHandler.class);
         MinecraftForge.EVENT_BUS.register(LeylineHandler.class);
 
-        ArcanaBlocks.register();
-        ArcanaItems.register();
-        ArcanaBlockEntityTypes.register();
-        ArcanaCreativeTabs.register(modEventBus);
+        AllBlocks.register();
+        AllItems.register();
+        AllBlockEntityTypes.register();
+        AllCreativeTabs.register(modEventBus);
 
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }

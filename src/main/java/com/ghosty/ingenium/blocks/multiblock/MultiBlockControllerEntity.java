@@ -1,14 +1,11 @@
 package com.ghosty.ingenium.blocks.multiblock;
 
-import com.ghosty.ingenium.CreateArcana;
+import com.ghosty.ingenium.ArcanaIngenium;
 import com.ghosty.ingenium.data.multiblock.MultiBlockManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageSources;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -81,14 +78,14 @@ public class MultiBlockControllerEntity extends BlockEntity {
         }
 
         modTag.put("StructureBlocks", blockList);
-        tag.put(CreateArcana.MODID, modTag);
+        tag.put(ArcanaIngenium.MODID, modTag);
     }
 
     // Load from NBT
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
-        CompoundTag modTag = tag.getCompound(CreateArcana.MODID);
+        CompoundTag modTag = tag.getCompound(ArcanaIngenium.MODID);
 
         // Load the `isFormed` flag
         isFormed = modTag.getBoolean("IsFormed");
