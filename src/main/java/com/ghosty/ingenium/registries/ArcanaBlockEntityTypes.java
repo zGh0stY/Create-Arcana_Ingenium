@@ -3,22 +3,24 @@ package com.ghosty.ingenium.registries;
 import com.ghosty.ingenium.CreateArcana;
 import com.ghosty.ingenium.blocks.energy.manaBattery.ManaBatteryBlockEntity;
 import com.ghosty.ingenium.blocks.kinetics.speedUpper.SpeedUpperBlockEntity;
-import com.simibubi.create.content.kinetics.transmission.SplitShaftInstance;
-import com.simibubi.create.content.kinetics.transmission.SplitShaftRenderer;
+import com.simibubi.create.foundation.data.CreateRegistrate;
+import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 
 public class ArcanaBlockEntityTypes {
-    public static final BlockEntityEntry<SpeedUpperBlockEntity> SPEED_UPPER = CreateArcana.REGISTRATE
+    private static final CreateRegistrate REGISTRATE = CreateArcana.registrate();
+
+    public static final BlockEntityEntry<SpeedUpperBlockEntity> SPEED_UPPER = REGISTRATE
             .blockEntity("speed_upper", SpeedUpperBlockEntity::new)
-            .instance(() -> SplitShaftInstance::new)
             .validBlocks(ArcanaBlocks.SPEED_UPPER)
-            .renderer(() -> SplitShaftRenderer::new)
             .register();
 
-    public static final BlockEntityEntry<ManaBatteryBlockEntity> MANA_BATTERY = CreateArcana.REGISTRATE
+    public static final BlockEntityEntry<ManaBatteryBlockEntity> MANA_BATTERY = REGISTRATE
             .blockEntity("mana_battery", ManaBatteryBlockEntity::new)
             .validBlocks(ArcanaBlocks.MANA_BATTERY)
             .register();
 
-    public static void register() {}
+    public static void register() {
+
+    }
 }
