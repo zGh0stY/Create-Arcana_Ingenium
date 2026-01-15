@@ -1,0 +1,15 @@
+{
+  "controller": "ingenium:multiblock_controller",
+  "layers": [
+    [
+      ["minecraft:obsidian", "minecraft:obsidian", "minecraft:obsidian"],
+      ["minecraft:obsidian", "ingenium:multiblock_controller", "minecraft:obsidian"],
+      ["minecraft:obsidian", "minecraft:obsidian", "minecraft:obsidian"]
+    ],
+    [
+      ["minecraft:air", "minecraft:air", "minecraft:air"],
+      ["minecraft:obsidian", "minecraft:air", "minecraft:obsidian"],
+      ["minecraft:air", "minecraft:air", "minecraft:air"]
+    ]
+  ]
+}
