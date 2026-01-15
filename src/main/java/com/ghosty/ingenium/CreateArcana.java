@@ -1,5 +1,8 @@
 package com.ghosty.ingenium;
 
+import com.ghosty.ingenium.data.multiblock.MultiBlockStructureLoader;
+import com.ghosty.ingenium.data.multiblock.MultiBlockStructures;
+import com.ghosty.ingenium.events.MultiBlockBreakHandler;
 import com.ghosty.ingenium.registries.ArcanaBlockEntityTypes;
 import com.ghosty.ingenium.registries.ArcanaBlocks;
 import com.ghosty.ingenium.registries.ArcanaCreativeTabs;
@@ -20,6 +23,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
@@ -42,13 +46,21 @@ public class CreateArcana
 
         REGISTRATE.registerEventListeners(modEventBus);
 
+        modEventBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(MultiBlockBreakHandler.class);
 
         ArcanaBlocks.register();
         ArcanaBlockEntityTypes.register();
         ArcanaCreativeTabs.register(modEventBus);
 
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+    }
+
+    private void commonSetup(final FMLCommonSetupEvent event)
+    {
+        MultiBlockStructureLoader.loadStructures(Minecraft.getInstance().getResourceManager());
+        MultiBlockStructures.initialize();
     }
 
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)

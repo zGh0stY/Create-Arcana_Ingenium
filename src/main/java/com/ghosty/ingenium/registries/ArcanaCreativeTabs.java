@@ -21,6 +21,7 @@ public class ArcanaCreativeTabs {
                         // Add all blocks
                         output.accept(ArcanaBlocks.SPEED_UPPER.get());
                         output.accept(ArcanaBlocks.MANA_BATTERY.get());
+                        output.accept(ArcanaBlocks.MULTIBLOCK_CONTROLLER.get());
                     })
                     .build()
     );
