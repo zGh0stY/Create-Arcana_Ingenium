@@ -1,0 +1,50 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "minecraft:item/compass_16"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "ingenium:leyline_proximity": 0.2
+      },
+      "model": "minecraft:item/compass_18"
+    },
+    {
+      "predicate": {
+        "ingenium:leyline_proximity": 0.4
+      },
+      "model": "minecraft:item/compass_20"
+    },
+    {
+      "predicate": {
+        "ingenium:leyline_proximity": 0.6
+      },
+      "model": "minecraft:item/compass_22"
+    },
+    {
+      "predicate": {
+        "ingenium:leyline_proximity": 0.7
+      },
+      "model": "minecraft:item/compass_24"
+    },
+    {
+      "predicate": {
+        "ingenium:leyline_proximity": 0.8
+      },
+      "model": "minecraft:item/compass_26"
+    },
+    {
+      "predicate": {
+        "ingenium:leyline_proximity": 0.9
+      },
+      "model": "minecraft:item/compass_30"
+    },
+    {
+      "predicate": {
+        "ingenium:leyline_proximity": 1.0
+      },
+      "model": "minecraft:item/compass_00"
+    }
+  ]
+}

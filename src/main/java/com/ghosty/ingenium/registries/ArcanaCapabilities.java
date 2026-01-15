@@ -3,7 +3,6 @@ package com.ghosty.ingenium.registries;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.energy.IEnergyStorage;
 
 public class ArcanaCapabilities {

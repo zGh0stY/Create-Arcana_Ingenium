@@ -22,6 +22,8 @@ public class ArcanaCreativeTabs {
                         output.accept(ArcanaBlocks.SPEED_UPPER.get());
                         output.accept(ArcanaBlocks.MANA_BATTERY.get());
                         output.accept(ArcanaBlocks.MULTIBLOCK_CONTROLLER.get());
+
+                        output.accept(ArcanaItems.LEYLINE_DETECTOR.get());
                     })
                     .build()
     );
