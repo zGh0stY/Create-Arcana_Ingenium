@@ -4,6 +4,7 @@ import com.ghosty.ingenium.data.multiblock.MultiBlockStructureLoader;
 import com.ghosty.ingenium.data.multiblock.MultiBlockStructures;
 import com.ghosty.ingenium.events.MultiBlockBreakHandler;
 import com.ghosty.ingenium.events.LeylineHandler;
+import com.ghosty.ingenium.network.NetworkHandler;
 import com.ghosty.ingenium.registries.*;
 import com.mojang.logging.LogUtils;
 import com.simibubi.create.foundation.data.CreateRegistrate;
@@ -57,6 +58,10 @@ public class ArcanaIngenium
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
+        event.enqueueWork(() -> {
+            NetworkHandler.registerPackets();
+        });
+
         MultiBlockStructureLoader.loadStructures(Minecraft.getInstance().getResourceManager());
         MultiBlockStructures.initialize();
     }

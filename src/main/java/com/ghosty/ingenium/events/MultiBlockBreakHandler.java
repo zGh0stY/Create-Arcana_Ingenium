@@ -1,5 +1,6 @@
 package com.ghosty.ingenium.events;
 
+import com.ghosty.ingenium.ArcanaIngenium;
 import com.ghosty.ingenium.blocks.multiblock.MultiBlockController;
 import com.ghosty.ingenium.blocks.multiblock.MultiBlockControllerEntity;
 import com.ghosty.ingenium.data.multiblock.MultiBlockManager;
@@ -17,19 +18,28 @@ public class MultiBlockBreakHandler {
         BlockPos pos = event.getPos();
         Level level = (Level) event.getLevel();
 
+        MultiBlockManager manager = MultiBlockManager.get(level);
+
         BlockState state = level.getBlockState(pos);
-        if (state.getBlock() instanceof MultiBlockController) {
-            MultiBlockManager manager = MultiBlockManager.get(level);
-            BlockEntity blockEntity = manager.findControllerForBlock(level, pos);
-
-            if (blockEntity instanceof MultiBlockControllerEntity controllerEntity) {
-                if (controllerEntity.isPartOfStructure(pos)) {
-                    controllerEntity.setFormed(false);
-                    controllerEntity.emptyStructure();
-
-                    event.getPlayer().sendSystemMessage(Component.literal("Multi-block structure is invalid!"));
-                }
+        if (state.getBlock() instanceof MultiBlockController controller) {
+            BlockEntity entity = level.getBlockEntity(pos);
+            if (entity instanceof MultiBlockControllerEntity controllerEntity) {
+                controllerEntity.setFormed(false);
+                controllerEntity.emptyStructure();
             }
+
+            event.getPlayer().sendSystemMessage(Component.literal("Multi-block structure is invalid!"));
+        }
+        else if (manager.isStructureBlock(pos)) {
+            BlockPos controllerPos = manager.getControllerForBlock(pos);
+            BlockEntity entity = level.getBlockEntity(controllerPos);
+
+            if (entity instanceof MultiBlockControllerEntity controller) {
+                controller.setFormed(false);
+                controller.emptyStructure();
+            }
+
+            event.getPlayer().sendSystemMessage(Component.literal("Multi-block structure is invalid!"));
         }
     }
 }

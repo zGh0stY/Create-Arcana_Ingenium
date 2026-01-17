@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "ingenium:block/leyline_extractor/block"
+    }
+  }
+}

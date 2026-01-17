@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
+import org.checkerframework.checker.units.qual.A;
 
 public class AllCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
@@ -20,7 +21,9 @@ public class AllCreativeTabs {
                     .displayItems((parameters, output) -> {
                         // Add all blocks
                         output.accept(AllBlocks.SPEED_UPPER.get());
-                        output.accept(AllBlocks.MANA_BATTERY.get());
+                        output.accept(AllBlocks.ARCANA_BATTERY.get());
+                        output.accept(AllBlocks.LEYLINE_EXTRACTOR.get());
+                        output.accept(AllBlocks.ARCANA_COIL.get());
                         output.accept(AllBlocks.MULTIBLOCK_CONTROLLER.get());
 
                         output.accept(AllItems.LEYLINE_DETECTOR.get());

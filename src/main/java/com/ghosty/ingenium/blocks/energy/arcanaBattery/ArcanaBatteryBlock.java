@@ -1,4 +1,4 @@
-package com.ghosty.ingenium.blocks.energy.manaBattery;
+package com.ghosty.ingenium.blocks.energy.arcanaBattery;
 
 import com.ghosty.ingenium.registries.AllBlockEntityTypes;
 import com.ghosty.ingenium.registries.AllCapabilities;
@@ -18,25 +18,6 @@ import net.minecraft.world.phys.BlockHitResult;
 public class ArcanaBatteryBlock extends Block implements IBE<ArcanaBatteryBlockEntity> {
     public ArcanaBatteryBlock(Properties pProperties) {
         super(pProperties);
-    }
-
-    @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!level.isClientSide) {
-            BlockEntity blockEntity = getBlockEntity(level, pos);
-
-            if (blockEntity instanceof ArcanaBatteryBlockEntity energyBlockEntity) {
-                energyBlockEntity.getCapability(AllCapabilities.MANA).ifPresent(manaStorage -> {
-                    manaStorage.receiveEnergy(150, false);
-
-                    int currentMana = manaStorage.getEnergyStored();
-
-                    player.sendSystemMessage(Component.literal("Current Mana: " + currentMana));
-                });
-            }
-        }
-
-        return InteractionResult.SUCCESS;
     }
 
     /*
@@ -59,6 +40,6 @@ public class ArcanaBatteryBlock extends Block implements IBE<ArcanaBatteryBlockE
 
     @Override
     public BlockEntityType<? extends ArcanaBatteryBlockEntity> getBlockEntityType() {
-        return AllBlockEntityTypes.MANA_BATTERY.get();
+        return AllBlockEntityTypes.ARCANA_BATTERY.get();
     }
 }

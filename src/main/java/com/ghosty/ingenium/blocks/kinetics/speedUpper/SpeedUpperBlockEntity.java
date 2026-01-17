@@ -1,5 +1,6 @@
 package com.ghosty.ingenium.blocks.kinetics.speedUpper;
 
+import com.simibubi.create.content.kinetics.mixer.MechanicalMixerBlock;
 import com.simibubi.create.content.kinetics.transmission.SplitShaftBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

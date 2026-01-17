@@ -35,12 +35,13 @@ public class MultiBlockController extends Block implements IBE<MultiBlockControl
 
                 if (valid >= 0) {
                     player.sendSystemMessage(Component.literal("Multi-block structure is valid!"));
-                    controller.setFormed(true);
 
                     List<BlockPos> blocks = savedStructure.getStructureBlocks(level, pos, valid);
                     for (BlockPos block : blocks) {
                         controller.addToStructure(block);
                     }
+
+                    controller.setFormed(true);
                 } else {
                     player.sendSystemMessage(Component.literal("Multi-block structure is invalid!"));
                     controller.setFormed(false);
@@ -50,6 +51,8 @@ public class MultiBlockController extends Block implements IBE<MultiBlockControl
         }
         return InteractionResult.SUCCESS;
     }
+
+
 
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {

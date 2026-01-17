@@ -11,15 +11,17 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MultiBlockControllerEntity extends BlockEntity {
     private boolean isFormed = false;
-    private List<BlockPos> structureBlocks;
+    private Set<BlockPos> structureBlocks;
 
     public MultiBlockControllerEntity(BlockEntityType<?> pType, BlockPos pos, BlockState state) {
         super(pType, pos, state);
-        structureBlocks = new ArrayList<>();
+        structureBlocks = new HashSet<>();
     }
 
     public void setFormed(boolean formed) {
@@ -28,9 +30,9 @@ public class MultiBlockControllerEntity extends BlockEntity {
 
         MultiBlockManager manager = MultiBlockManager.get(this.getLevel());
         if (formed)
-            manager.registerController(this.getBlockPos());
+            manager.registerStructure(this.getBlockPos(), structureBlocks);
         else
-            manager.unregisterController(this.getBlockPos());
+            manager.unregisterStructure(this.getBlockPos());
     }
 
     public boolean isFormed() {
@@ -45,7 +47,7 @@ public class MultiBlockControllerEntity extends BlockEntity {
     }
 
     public void emptyStructure() {
-        structureBlocks = new ArrayList<>();
+        structureBlocks = new HashSet<>();
         setChanged();
     }
 
@@ -91,7 +93,7 @@ public class MultiBlockControllerEntity extends BlockEntity {
         isFormed = modTag.getBoolean("IsFormed");
 
         // Load the structureBlocks list
-        structureBlocks = new ArrayList<>();
+        structureBlocks = new HashSet<>();
         ListTag blockList = modTag.getList("StructureBlocks", Tag.TAG_COMPOUND); // Each entry is a CompoundTag
         for (int i = 0; i < blockList.size(); i++) {
             CompoundTag blockPosTag = blockList.getCompound(i);

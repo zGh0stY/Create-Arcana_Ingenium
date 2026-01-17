@@ -14,123 +14,136 @@ import java.util.*;
 
 public class MultiBlockManager extends SavedData {
     private static final String DATA_NAME = "multiblock_manager";
-    private final Map<ChunkPos, List<BlockPos>> trackedControllers = new HashMap<>();
 
-    public MultiBlockManager() {
+    // Three data structures for fast lookups:
+    private final Map<BlockPos, BlockPos> blockToController = new HashMap<>(); // Fast O(1) block lookup
+    private final Map<BlockPos, Set<BlockPos>> controllerToBlocks = new HashMap<>(); // Controller's blocks
+    private final Map<ChunkPos, Set<BlockPos>> chunkToControllers = new HashMap<>(); // For chunk-based ops
 
-    }
+    public MultiBlockManager() {}
 
     public MultiBlockManager(CompoundTag tag) {
         load(tag);
     }
 
-    // Register a controller in the map based on its chunk position
-    public void registerController(BlockPos controller) {
-        ChunkPos chunkPos = new ChunkPos(controller);
-        if (trackedControllers.containsKey(chunkPos))
-            if (trackedControllers.get(chunkPos).contains(controller))
-                return;
-        trackedControllers.computeIfAbsent(chunkPos, k -> new ArrayList<>()).add(controller);
-        System.out.println("Registering Controller!");
-        System.out.println(trackedControllers);
-        setDirty();
-    }
+    // Register a complete structure
+    public void registerStructure(BlockPos controllerPos, Set<BlockPos> structureBlocks) {
+        // Remove old structure if exists
+        unregisterStructure(controllerPos);
 
-    // Unregister a controller from the map
-    public void unregisterController(BlockPos controller) {
-        ChunkPos chunkPos = new ChunkPos(controller);
-        List<BlockPos> controllersInChunk = trackedControllers.get(chunkPos);
+        // Register new structure
+        controllerToBlocks.put(controllerPos, new HashSet<>(structureBlocks));
 
-        if (controllersInChunk != null) {
-            controllersInChunk.remove(controller);
-            if (controllersInChunk.isEmpty()) {
-                trackedControllers.remove(chunkPos);
-            }
+        for (BlockPos blockPos : structureBlocks) {
+            blockToController.put(blockPos, controllerPos);
+
+            // Also track by chunk for potential chunk-based operations
+            ChunkPos chunkPos = new ChunkPos(blockPos);
+            chunkToControllers.computeIfAbsent(chunkPos, k -> new HashSet<>()).add(controllerPos);
         }
 
-        System.out.println("Unregistering Controller!");
-        System.out.println(trackedControllers);
-
         setDirty();
     }
 
-    // Find the controller for a given block position
-    public MultiBlockControllerEntity findControllerForBlock(Level level, BlockPos pos) {
-        ChunkPos chunkPos = new ChunkPos(pos);
-        List<BlockPos> controllersInChunk = trackedControllers.get(chunkPos);
+    // Unregister a structure
+    public void unregisterStructure(BlockPos controllerPos) {
+        Set<BlockPos> blocks = controllerToBlocks.remove(controllerPos);
+        if (blocks != null) {
+            for (BlockPos blockPos : blocks) {
+                blockToController.remove(blockPos);
 
-        if (controllersInChunk != null) {
-            for (BlockPos controller : controllersInChunk) {
-                MultiBlockControllerEntity entity = (MultiBlockControllerEntity) level.getBlockEntity(controller);
-
-                if (entity != null && entity.isPartOfStructure(pos)) {
-                    return entity;
+                // Clean up chunk mapping
+                ChunkPos chunkPos = new ChunkPos(blockPos);
+                Set<BlockPos> controllersInChunk = chunkToControllers.get(chunkPos);
+                if (controllersInChunk != null) {
+                    controllersInChunk.remove(controllerPos);
+                    if (controllersInChunk.isEmpty()) {
+                        chunkToControllers.remove(chunkPos);
+                    }
                 }
             }
         }
-
-        return null;
+        setDirty();
     }
 
-    // Load the data from NBT
+    // FAST O(1) lookup: Is this block part of any structure?
+    public boolean isStructureBlock(BlockPos blockPos) {
+        return blockToController.containsKey(blockPos);
+    }
+
+    // FAST O(1) lookup: Get controller for a block
+    public BlockPos getControllerForBlock(BlockPos blockPos) {
+        return blockToController.get(blockPos);
+    }
+
+    // Get all blocks for a controller
+    public Set<BlockPos> getBlocksForController(BlockPos controllerPos) {
+        Set<BlockPos> blocks = controllerToBlocks.get(controllerPos);
+        return blocks != null ? Collections.unmodifiableSet(blocks) : Collections.emptySet();
+    }
+
+    // Load from NBT
     public void load(CompoundTag tag) {
-        trackedControllers.clear();
-        ListTag chunkList = tag.getList("TrackedControllers", Tag.TAG_COMPOUND);
+        blockToController.clear();
+        controllerToBlocks.clear();
+        chunkToControllers.clear();
 
-        for (int i = 0; i < chunkList.size(); i++) {
-            CompoundTag chunkTag = chunkList.getCompound(i);
-            ChunkPos chunkPos = new ChunkPos(chunkTag.getInt("ChunkX"), chunkTag.getInt("ChunkZ"));
+        // Load controller->blocks mapping
+        ListTag controllerList = tag.getList("Controllers", Tag.TAG_COMPOUND);
+        for (int i = 0; i < controllerList.size(); i++) {
+            CompoundTag controllerTag = controllerList.getCompound(i);
+            BlockPos controllerPos = BlockPos.of(controllerTag.getLong("ControllerPos"));
 
-            List<BlockPos> controllers = new ArrayList<>();
-            ListTag controllerList = chunkTag.getList("Controllers", Tag.TAG_COMPOUND);
-            for (int j = 0; j < controllerList.size(); j++) {
-                CompoundTag posTag = controllerList.getCompound(j);
-                BlockPos pos = new BlockPos(posTag.getInt("X"), posTag.getInt("Y"), posTag.getInt("Z"));
-                controllers.add(pos);
+            Set<BlockPos> blocks = new HashSet<>();
+            ListTag blocksList = controllerTag.getList("Blocks", Tag.TAG_COMPOUND);
+            for (int j = 0; j < blocksList.size(); j++) {
+                BlockPos blockPos = BlockPos.of(blocksList.getCompound(j).getLong("Pos"));
+                blocks.add(blockPos);
+                blockToController.put(blockPos, controllerPos);
+
+                // Build chunk mapping
+                ChunkPos chunkPos = new ChunkPos(blockPos);
+                chunkToControllers.computeIfAbsent(chunkPos, k -> new HashSet<>()).add(controllerPos);
             }
 
-            trackedControllers.put(chunkPos, controllers);
+            controllerToBlocks.put(controllerPos, blocks);
         }
-
-        System.out.println("Loading MultiblockManager Controllers!");
-        System.out.println(trackedControllers);
     }
 
-    // Save the data to NBT
+    // Save to NBT
     @Override
     public CompoundTag save(CompoundTag tag) {
-        ListTag chunkList = new ListTag();
+        ListTag controllerList = new ListTag();
 
-        for (Map.Entry<ChunkPos, List<BlockPos>> entry : trackedControllers.entrySet()) {
-            CompoundTag chunkTag = new CompoundTag();
-            chunkTag.putInt("ChunkX", entry.getKey().x);
-            chunkTag.putInt("ChunkZ", entry.getKey().z);
+        for (Map.Entry<BlockPos, Set<BlockPos>> entry : controllerToBlocks.entrySet()) {
+            CompoundTag controllerTag = new CompoundTag();
+            controllerTag.putLong("ControllerPos", entry.getKey().asLong());
 
-            ListTag controllerList = new ListTag();
-            for (BlockPos pos : entry.getValue()) {
-                CompoundTag posTag = new CompoundTag();
-                posTag.putInt("X", pos.getX());
-                posTag.putInt("Y", pos.getY());
-                posTag.putInt("Z", pos.getZ());
-                controllerList.add(posTag);
+            ListTag blocksList = new ListTag();
+            for (BlockPos blockPos : entry.getValue()) {
+                CompoundTag blockTag = new CompoundTag();
+                blockTag.putLong("Pos", blockPos.asLong());
+                blocksList.add(blockTag);
             }
 
-            chunkTag.put("Controllers", controllerList);
-            chunkList.add(chunkTag);
+            controllerTag.put("Blocks", blocksList);
+            controllerList.add(controllerTag);
         }
 
-        tag.put("TrackedControllers", chunkList);
+        tag.put("Controllers", controllerList);
         return tag;
     }
 
-    // Get the manager instance for a level
     public static MultiBlockManager get(Level level) {
         if (!(level instanceof ServerLevel serverLevel)) {
             throw new IllegalStateException("MultiBlockManager can only be used on the server side!");
         }
-
         return serverLevel.getDataStorage().computeIfAbsent(
-                MultiBlockManager::new,
+                tag -> {
+                    MultiBlockManager manager = new MultiBlockManager();
+                    manager.load(tag);
+                    return manager;
+                },
                 MultiBlockManager::new,
                 DATA_NAME
         );
