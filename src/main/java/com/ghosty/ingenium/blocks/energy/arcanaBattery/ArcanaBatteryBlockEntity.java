@@ -5,8 +5,11 @@ import com.ghosty.ingenium.api.energy.ArcanaType;
 import com.ghosty.ingenium.blocks.energy.IArcanaConsumer;
 import com.ghosty.ingenium.blocks.energy.IArcanaSource;
 import com.ghosty.ingenium.blocks.energy.IArcanaStorage;
+import com.ghosty.ingenium.blocks.energy.arcanaCoil.ArcanaCoilBlock;
+import com.ghosty.ingenium.blocks.energy.arcanaCoil.ArcanaCoilBlockEntity;
 import com.ghosty.ingenium.network.NetworkHandler;
 import com.ghosty.ingenium.network.ParticleTrailPacket;
+import com.ghosty.ingenium.utils.BlockDetectionUtil;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
@@ -19,12 +22,16 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.energy.EnergyStorage;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class ArcanaBatteryBlockEntity extends SmartBlockEntity implements IArcanaStorage, IArcanaSource, IArcanaConsumer, IHaveGoggleInformation {
     private EnergyStorage manaStorage = new EnergyStorage(10000);
     private EnergyStorage pranaStorage = new EnergyStorage(10000);
     private EnergyStorage auraStorage = new EnergyStorage(10000);
+
+    List<ArcanaCoilBlockEntity> networkCoils = new ArrayList<>();
 
     // Change constructor to match BlockEntityType.BlockEntitySupplier signature
     public ArcanaBatteryBlockEntity(BlockEntityType<?> type, BlockPos pPos, BlockState pBlockState) {
@@ -64,7 +71,6 @@ public class ArcanaBatteryBlockEntity extends SmartBlockEntity implements IArcan
 
     @Override
     public void initiateArcanaRequest(IArcanaSource coil) {
-        ArcanaIngenium.logger().info("Battery Stored Prana: " + getStoredArcana(ArcanaType.PRANA));
         int amount = coil.requestArcana(this, 10000 - getStoredArcana(ArcanaType.PRANA), ArcanaType.PRANA);
         if (amount > 0) {
             if (coil instanceof BlockEntity coilBE) {
@@ -72,10 +78,19 @@ public class ArcanaBatteryBlockEntity extends SmartBlockEntity implements IArcan
                 NetworkHandler.sendToAllNear(particlepacket, this.level, this.worldPosition, 64);
             }
         }
+        else {
+            if (coil instanceof BlockEntity coilBE) {
+                ParticleTrailPacket particlepacket = new ParticleTrailPacket(coilBE.getBlockPos(), this.getBlockPos(), 0, 20, 0.02f);
+                NetworkHandler.sendToAllNear(particlepacket, this.level, this.worldPosition, 64);
+            }
+        }
     }
 
     @Override
-    public int requestArcana(IArcanaStorage requester, int amount, ArcanaType type) {
+    public int requestArcana(IArcanaStorage requester, int amount, ArcanaType type, HashSet<IArcanaSource> visited) {
+        if (requester instanceof ArcanaBatteryBlockEntity)
+            return 0;
+
         int maxAmount = requester.addStoredArcana(amount, type, true);
         int extracted = removeStoredArcana(maxAmount, type, false);
 
@@ -116,5 +131,10 @@ public class ArcanaBatteryBlockEntity extends SmartBlockEntity implements IArcan
         manaStorage = new EnergyStorage(10000);
         pranaStorage = new EnergyStorage(10000);
         auraStorage = new EnergyStorage(10000);
+    }
+
+    @Override
+    public List<ArcanaCoilBlockEntity> getCoils() {
+        return networkCoils;
     }
 }

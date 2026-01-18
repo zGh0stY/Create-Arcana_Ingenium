@@ -2,6 +2,7 @@ package com.ghosty.ingenium.blocks.energy.leylineExtractor;
 
 import com.ghosty.ingenium.ArcanaIngenium;
 import com.ghosty.ingenium.api.energy.ArcanaType;
+import com.ghosty.ingenium.blocks.energy.IArcanaCoilNetworkBlock;
 import com.ghosty.ingenium.events.LeylineHandler;
 import com.ghosty.ingenium.registries.AllBlockEntityTypes;
 import com.simibubi.create.AllShapes;
@@ -22,7 +23,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class LeylineExtractorBlock extends KineticBlock implements IBE<LeylineExtractorBlockEntity>, ICogWheel {
+public class LeylineExtractorBlock extends KineticBlock implements IBE<LeylineExtractorBlockEntity>, ICogWheel, IArcanaCoilNetworkBlock {
 
     public LeylineExtractorBlock(Properties properties) {
         super(properties);
@@ -52,6 +53,15 @@ public class LeylineExtractorBlock extends KineticBlock implements IBE<LeylineEx
                 ArcanaIngenium.logger().info("Leyline Extractor placed off leyline.");
             }
         }
+
+        IArcanaCoilNetworkBlock.super.onPlaceNetwork(worldIn, pos);
+    }
+
+    @Override
+    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
+        IArcanaCoilNetworkBlock.super.onRemoveNetwork(pLevel, pPos);
+
+        super.onRemove(pState, pLevel, pPos, pNewState, pMovedByPiston);
     }
 
     @Override

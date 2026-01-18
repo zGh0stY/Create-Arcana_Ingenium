@@ -1,8 +1,11 @@
 package com.ghosty.ingenium.blocks.energy.arcanaCoil;
 
+import com.ghosty.ingenium.blocks.energy.IArcanaCoilNetworkBlock;
+import com.ghosty.ingenium.blocks.energy.IArcanaCoilNetworkEntity;
 import com.ghosty.ingenium.blocks.energy.IArcanaConsumer;
 import com.ghosty.ingenium.blocks.energy.IArcanaSource;
 import com.ghosty.ingenium.registries.AllBlockEntityTypes;
+import com.ghosty.ingenium.utils.BlockDetectionUtil;
 import com.simibubi.create.foundation.block.IBE;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -14,8 +17,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArcanaCoilBlock extends Block implements IBE<ArcanaCoilBlockEntity> {
-    final int RANGE = 5;
+public class ArcanaCoilBlock extends Block implements IBE<ArcanaCoilBlockEntity>, IArcanaCoilNetworkBlock {
+    public final static int RANGE = 5;
 
     public ArcanaCoilBlock(Properties pProperties) {
         super(pProperties);
@@ -29,7 +32,7 @@ public class ArcanaCoilBlock extends Block implements IBE<ArcanaCoilBlockEntity>
             return;
 
         if (pLevel.getBlockEntity(pPos) instanceof ArcanaCoilBlockEntity coilbe) {
-            List<BlockPos> positions = getBlocksInSphericalRadius(pPos, RANGE);
+            List<BlockPos> positions = BlockDetectionUtil.getBlocksInSphericalRadius(pPos, RANGE);
             List<IArcanaConsumer> consumers = new ArrayList<>();
             List<IArcanaSource> sources = new ArrayList<>();
             for (BlockPos pos : positions) {
@@ -52,22 +55,22 @@ public class ArcanaCoilBlock extends Block implements IBE<ArcanaCoilBlockEntity>
             coilbe.setConsumers(consumers);
             coilbe.setSources(sources);
         }
+
+        IArcanaCoilNetworkBlock.super.onPlaceNetwork(pLevel, pPos);
     }
 
-    private List<BlockPos> getBlocksInSphericalRadius(BlockPos center, int radius) {
-        List<BlockPos> positions = new ArrayList<>();
-        int radiusSq = radius * radius;
+    @Override
+    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
+        IArcanaCoilNetworkBlock.super.onRemoveNetwork(pLevel, pPos);
 
-        for (int dx = -radius; dx <= radius; dx++) {
-            for (int dy = -radius; dy <= radius; dy++) {
-                for (int dz = -radius; dz <= radius; dz++) {
-                    if (dx*dx + dy*dy + dz*dz <= radiusSq) {
-                        positions.add(center.offset(dx, dy, dz));
-                    }
-                }
-            }
+        if (pLevel.getBlockEntity(pPos) instanceof ArcanaCoilBlockEntity coilbe) {
+            for (IArcanaCoilNetworkEntity entity : coilbe.getConsumers())
+                entity.getCoils().remove(coilbe);
+            for (IArcanaCoilNetworkEntity entity : coilbe.getSources())
+                entity.getCoils().remove(coilbe);
         }
-        return positions;
+
+        super.onRemove(pState, pLevel, pPos, pNewState, pMovedByPiston);
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.ghosty.ingenium.api.energy.ArcanaType;
 import com.ghosty.ingenium.blocks.energy.IArcanaConsumer;
 import com.ghosty.ingenium.blocks.energy.IArcanaSource;
 import com.ghosty.ingenium.blocks.energy.IArcanaStorage;
+import com.ghosty.ingenium.blocks.energy.arcanaCoil.ArcanaCoilBlockEntity;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
@@ -19,6 +20,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.energy.EnergyStorage;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class LeylineExtractorBlockEntity extends KineticBlockEntity implements IArcanaSource, IArcanaStorage, IHaveGoggleInformation {
@@ -30,6 +33,8 @@ public class LeylineExtractorBlockEntity extends KineticBlockEntity implements I
     private EnergyStorage auraStorage = new EnergyStorage(10000);
     ArcanaType arcanaType;
     int tickCounter = 0;
+
+    List<ArcanaCoilBlockEntity> networkCoils = new ArrayList<>();
 
     public LeylineExtractorBlockEntity(BlockEntityType<?> type, BlockPos pPos, BlockState pBlockState) {
         super(type, pPos, pBlockState);
@@ -79,12 +84,9 @@ public class LeylineExtractorBlockEntity extends KineticBlockEntity implements I
     }
 
     @Override
-    public int requestArcana(IArcanaStorage requester, int amount, ArcanaType type) {
-        ArcanaIngenium.logger().info("Arcana requested: " + amount + " of type " + type);
+    public int requestArcana(IArcanaStorage requester, int amount, ArcanaType type, HashSet<IArcanaSource> visited) {
         int maxAmount = requester.addStoredArcana(amount, type, true);
-        ArcanaIngenium.logger().info("Max Amount accepted: " + maxAmount);
         int extracted = removeStoredArcana(maxAmount, type, false);
-        ArcanaIngenium.logger().info("Actually extracted amount: " + extracted);
 
         return requester.addStoredArcana(extracted, type, false);
     }
@@ -126,4 +128,8 @@ public class LeylineExtractorBlockEntity extends KineticBlockEntity implements I
     }
 
 
+    @Override
+    public List<ArcanaCoilBlockEntity> getCoils() {
+        return networkCoils;
+    }
 }
