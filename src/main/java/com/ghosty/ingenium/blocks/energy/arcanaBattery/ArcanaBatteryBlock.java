@@ -2,19 +2,12 @@ package com.ghosty.ingenium.blocks.energy.arcanaBattery;
 
 import com.ghosty.ingenium.blocks.energy.IArcanaCoilNetworkBlock;
 import com.ghosty.ingenium.registries.AllBlockEntityTypes;
-import com.ghosty.ingenium.registries.AllCapabilities;
 import com.simibubi.create.foundation.block.IBE;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
 
 public class ArcanaBatteryBlock extends Block implements IBE<ArcanaBatteryBlockEntity>, IArcanaCoilNetworkBlock {
     public ArcanaBatteryBlock(Properties pProperties) {
@@ -37,15 +30,7 @@ public class ArcanaBatteryBlock extends Block implements IBE<ArcanaBatteryBlockE
     @Override
     public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pMovedByPiston) {
         super.onPlace(pState, pLevel, pPos, pOldState, pMovedByPiston);
-
-        IArcanaCoilNetworkBlock.super.onPlaceNetwork(pLevel, pPos);
-    }
-
-    @Override
-    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
-        IArcanaCoilNetworkBlock.super.onRemoveNetwork(pLevel, pPos);
-
-        super.onRemove(pState, pLevel, pPos, pNewState, pMovedByPiston);
+        IArcanaCoilNetworkBlock.super.onPlace(pState, pLevel, pPos, pOldState, pMovedByPiston);
     }
 
     @Override

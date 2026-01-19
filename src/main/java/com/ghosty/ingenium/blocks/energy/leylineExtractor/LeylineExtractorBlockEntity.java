@@ -25,7 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class LeylineExtractorBlockEntity extends KineticBlockEntity implements IArcanaSource, IArcanaStorage, IHaveGoggleInformation {
-    private final int MAX_EXTRACT = 10;
+    private final int MAX_EXTRACT = 50;
     private final int EXTRACT_RATE = 5;
 
     private EnergyStorage manaStorage = new EnergyStorage(10000);
@@ -33,8 +33,6 @@ public class LeylineExtractorBlockEntity extends KineticBlockEntity implements I
     private EnergyStorage auraStorage = new EnergyStorage(10000);
     ArcanaType arcanaType;
     int tickCounter = 0;
-
-    List<ArcanaCoilBlockEntity> networkCoils = new ArrayList<>();
 
     public LeylineExtractorBlockEntity(BlockEntityType<?> type, BlockPos pPos, BlockState pBlockState) {
         super(type, pPos, pBlockState);
@@ -84,7 +82,7 @@ public class LeylineExtractorBlockEntity extends KineticBlockEntity implements I
     }
 
     @Override
-    public int requestArcana(IArcanaStorage requester, int amount, ArcanaType type, HashSet<IArcanaSource> visited) {
+    public int requestArcana(IArcanaStorage requester, int amount, ArcanaType type, HashSet<BlockPos> visited) {
         int maxAmount = requester.addStoredArcana(amount, type, true);
         int extracted = removeStoredArcana(maxAmount, type, false);
 
@@ -125,11 +123,5 @@ public class LeylineExtractorBlockEntity extends KineticBlockEntity implements I
         manaStorage = new EnergyStorage(10000);
         pranaStorage = new EnergyStorage(10000);
         auraStorage = new EnergyStorage(10000);
-    }
-
-
-    @Override
-    public List<ArcanaCoilBlockEntity> getCoils() {
-        return networkCoils;
     }
 }

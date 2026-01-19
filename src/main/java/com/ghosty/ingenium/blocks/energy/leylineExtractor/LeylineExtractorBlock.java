@@ -32,6 +32,7 @@ public class LeylineExtractorBlock extends KineticBlock implements IBE<LeylineEx
     @Override
     public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
         super.onPlace(state, worldIn, pos, oldState, isMoving);
+        IArcanaCoilNetworkBlock.super.onPlace(state, worldIn, pos, oldState, isMoving);
 
         if (!worldIn.isClientSide) {
             int chunkX = (int) Math.floor((double) pos.getX() / 16);
@@ -53,15 +54,6 @@ public class LeylineExtractorBlock extends KineticBlock implements IBE<LeylineEx
                 ArcanaIngenium.logger().info("Leyline Extractor placed off leyline.");
             }
         }
-
-        IArcanaCoilNetworkBlock.super.onPlaceNetwork(worldIn, pos);
-    }
-
-    @Override
-    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
-        IArcanaCoilNetworkBlock.super.onRemoveNetwork(pLevel, pPos);
-
-        super.onRemove(pState, pLevel, pPos, pNewState, pMovedByPiston);
     }
 
     @Override

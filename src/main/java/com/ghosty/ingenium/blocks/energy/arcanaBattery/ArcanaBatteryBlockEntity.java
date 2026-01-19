@@ -31,8 +31,6 @@ public class ArcanaBatteryBlockEntity extends SmartBlockEntity implements IArcan
     private EnergyStorage pranaStorage = new EnergyStorage(10000);
     private EnergyStorage auraStorage = new EnergyStorage(10000);
 
-    List<ArcanaCoilBlockEntity> networkCoils = new ArrayList<>();
-
     // Change constructor to match BlockEntityType.BlockEntitySupplier signature
     public ArcanaBatteryBlockEntity(BlockEntityType<?> type, BlockPos pPos, BlockState pBlockState) {
         super(type, pPos, pBlockState);
@@ -87,7 +85,7 @@ public class ArcanaBatteryBlockEntity extends SmartBlockEntity implements IArcan
     }
 
     @Override
-    public int requestArcana(IArcanaStorage requester, int amount, ArcanaType type, HashSet<IArcanaSource> visited) {
+    public int requestArcana(IArcanaStorage requester, int amount, ArcanaType type, HashSet<BlockPos> visited) {
         if (requester instanceof ArcanaBatteryBlockEntity)
             return 0;
 
@@ -131,10 +129,5 @@ public class ArcanaBatteryBlockEntity extends SmartBlockEntity implements IArcan
         manaStorage = new EnergyStorage(10000);
         pranaStorage = new EnergyStorage(10000);
         auraStorage = new EnergyStorage(10000);
-    }
-
-    @Override
-    public List<ArcanaCoilBlockEntity> getCoils() {
-        return networkCoils;
     }
 }

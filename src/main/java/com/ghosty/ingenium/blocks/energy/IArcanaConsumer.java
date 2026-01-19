@@ -1,5 +1,5 @@
 package com.ghosty.ingenium.blocks.energy;
 
-public interface IArcanaConsumer extends IArcanaCoilNetworkEntity {
+public interface IArcanaConsumer {
     void initiateArcanaRequest(IArcanaSource coil);
 }
